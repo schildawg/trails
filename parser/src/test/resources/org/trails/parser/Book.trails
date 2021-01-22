@@ -1,0 +1,6 @@
+package org.schildawg.book
+
+entity Book {
+   field1 : String
+   field2 : Integer
+}
