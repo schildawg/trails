@@ -53,7 +53,7 @@ class LexerReader(private val reader : Reader) {
      * @throws IOException if problems reading from reader.
      */
     @Throws(IOException::class)
-    fun read(c: Char): Boolean {
+    fun read(c : Char): Boolean {
         read()
         if (peek != c) {
             return false

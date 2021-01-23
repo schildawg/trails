@@ -1,15 +1,35 @@
+/*
+ * Copyright 2021 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.trails.lexer;
 
 import lombok.val;
 import lombok.var;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
 import java.io.StringReader;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Verifies {@link Lexer}
@@ -18,13 +38,30 @@ import static org.junit.Assert.assertTrue;
  * @version 1.0, 01/13/2021
  * @since   1.0
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
+@RunWith(JUnitPlatform.class)
 public class LexerTest {
+    /**
+     * Tests the reader throwing an exception.
+     */
+    @Test
+    void testReaderThrowsException() throws Exception {
+        val stringReader = Mockito.mock(StringReader.class);
+        Mockito.when(stringReader.read()).thenThrow(new IOException());
+
+        Assertions.assertThrows(IOException.class, () -> {
+            val reader = new LexerReader(stringReader);
+            val lexer = makeUut();
+
+            lexer.scan(reader);
+        });
+    }
+
     /**
      * Tests parsing operators.
      */
     @Test
-    public void testParseOperators() throws Exception {
+    void testParseOperators() throws Exception {
         val reader = new LexerReader(new StringReader("& | = ! < >"));
         val lexer = makeUut();
 
@@ -51,7 +88,7 @@ public class LexerTest {
      * Tests parsing AND.
      */
     @Test
-    public void testParseAnd() throws Exception {
+    void testParseAnd() throws Exception {
         val reader = new LexerReader(new StringReader("&&"));
         val lexer = makeUut();
 
@@ -64,7 +101,7 @@ public class LexerTest {
      * Tests parsing OR.
      */
     @Test
-    public void testParseOr() throws Exception {
+    void testParseOr() throws Exception {
         val reader = new LexerReader(new StringReader("||"));
         val lexer = makeUut();
 
@@ -77,7 +114,7 @@ public class LexerTest {
      * Tests parsing NE.
      */
     @Test
-    public void testParseNe() throws Exception {
+    void testParseNe() throws Exception {
         val reader = new LexerReader(new StringReader("!="));
         val lexer = makeUut();
 
@@ -90,7 +127,7 @@ public class LexerTest {
      * Tests parsing LE.
      */
     @Test
-    public void testParseLe() throws Exception {
+    void testParseLe() throws Exception {
         val reader = new LexerReader(new StringReader("<="));
         val lexer = makeUut();
 
@@ -103,7 +140,7 @@ public class LexerTest {
      * Tests parsing GE.
      */
     @Test
-    public void testParseGe() throws Exception {
+    void testParseGe() throws Exception {
         val reader = new LexerReader(new StringReader(">="));
         val lexer = makeUut();
 
@@ -116,7 +153,7 @@ public class LexerTest {
      * Tests parsing a integer number.
      */
     @Test
-    public void testParseNumber() throws Exception {
+    void testParseNumber() throws Exception {
         val reader = new LexerReader(new StringReader("42"));
         val lexer = makeUut();
 
@@ -133,7 +170,7 @@ public class LexerTest {
      * Tests parsing a floating point number.
      */
     @Test
-    public void testParseReal() throws Exception {
+    void testParseReal() throws Exception {
         val reader = new LexerReader(new StringReader("3.14"));
         val lexer = makeUut();
 
@@ -150,7 +187,7 @@ public class LexerTest {
      * Tests parsing an ID.
      */
     @Test
-    public void testParseId() throws Exception {
+    void testParseId() throws Exception {
         val reader = new LexerReader(new StringReader("Joel16 Joel16"));
         val lexer = makeUut();
 
@@ -174,7 +211,7 @@ public class LexerTest {
      * Tests parsing character.
      */
     @Test
-    public void testParseCharacter() throws Exception {
+    void testParseCharacter() throws Exception {
         val reader = new LexerReader(new StringReader("\n"));
         val lexer = makeUut();
 
