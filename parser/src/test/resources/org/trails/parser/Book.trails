@@ -1,4 +1,4 @@
-package org.schildawg.book
+module book
 
 entity Book {
    field1 : String

@@ -13,57 +13,53 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.trails.lexer;
+package org.trails.inter;
 
 import lombok.val;
-import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
+import org.trails.lexer.Tag;
+import org.trails.lexer.Word;
+import org.trails.symbol.Type;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Verifies {@link Token}
+ * Verifies {@link Expr}
  *
  * @author  Joel Schilling
- * @version 1.0, 01/13/2021
+ * @version 1.0, 01/23/2021
  * @since   1.0
  */
-public class TokenTest {
+public class ExprTest {
     /**
      * Tests constructor.
      */
     @Test
-    void testConstructor()  {
-        val token = new Token(42);
+    void testConstructor() {
+        val id = new Expr(new Word("abc", Tag.ID), Type.Int);
 
-        assertEquals(42, token.getTag());
+        assertEquals(new Word("abc", Tag.ID), id.getToken());
+        assertEquals(Type.Int, id.getType());
     }
 
     /**
-     * Tests character constructor.
+     * Exercise the reduce method.
      */
     @Test
-    void testConstructor2() {
-        val token = new Token('%');
 
-        assertEquals('%', token.getTag());
+    void testReduce() {
+        val id = new Expr(new Word("abc", Tag.ID), Type.Int);
+
+        assertEquals(id, id.reduce());
     }
 
     /**
-     * Tests toString().
+     * Exercise the gen method.
      */
     @Test
-    void testToString()  {
-        val token = new Token(42);
+    void testGen() {
+        val id = new Expr(new Word("abc", Tag.ID), Type.Int);
 
-        assertEquals("*", token.toString());
-    }
-
-    /**
-     * Tests the equals/hashcode contract has been satisfied.
-     */
-    @Test
-    public void testEqualsHashCode() {
-        EqualsVerifier.forClass(Token.class).withOnlyTheseFields("tag").usingGetClass().verify();
+        assertEquals(id, id.gen());
     }
 }

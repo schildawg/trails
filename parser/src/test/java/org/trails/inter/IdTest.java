@@ -13,37 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.trails.lexer
+package org.trails.inter;
+
+import lombok.val;
+import org.junit.jupiter.api.Test;
+import org.trails.lexer.Tag;
+import org.trails.lexer.Word;
+import org.trails.symbol.Type;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Token base class.
+ * Verifies {@link Id}
  *
- * @param tag the tag.
  * @author  Joel Schilling
- * @version 1.0, 01/12/2021
+ * @version 1.0, 01/23/2021
  * @since   1.0
  */
-open class Token(val tag: Int) {
+public class IdTest {
     /**
-     * Constructor using characters.
-     * @param tag the character tag.
+     * Tests constructor.
      */
-    constructor(tag : Char) : this(tag.toInt());
+    @Test
+    void testConstructor() {
+        val id = new Id(new Word("abc", Tag.ID), Type.Int, 0);
 
-
-    override fun toString() : String  = "" + tag.toChar()
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Token
-        if (tag != other.tag) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return tag
+        assertEquals("abc", id.toString());
     }
 }

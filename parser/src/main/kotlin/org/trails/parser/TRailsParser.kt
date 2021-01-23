@@ -22,7 +22,6 @@ import org.trails.lexer.LexerReader
 import org.trails.lexer.Tag
 import org.trails.lexer.Token
 import org.trails.lexer.Word
-import org.trails.symbol.Env
 
 /**
  * Parser for TRails DSL.
@@ -36,8 +35,6 @@ import org.trails.symbol.Env
 class TRailsParser(private val lexer: Lexer, private val reader: LexerReader) {
     private var look : Token? = null // lookahead tagen
     private var matched : Token? = null
-
-    private val top: Env? = null // current or top symbol table
 
     var module : String? = null
     var entity : String? = null
@@ -53,7 +50,7 @@ class TRailsParser(private val lexer: Lexer, private val reader: LexerReader) {
     }
 
     private fun module() {
-        match(Tag.PACKAGE)
+        match(Tag.MODULE)
         match(Tag.ID)
 
         val sb = StringBuffer()

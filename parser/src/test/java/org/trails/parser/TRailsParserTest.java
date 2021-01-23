@@ -15,15 +15,18 @@
  */
 package org.trails.parser;
 
-import org.junit.jupiter.api.Test;
 import lombok.val;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.trails.lexer.Lexer;
 import org.trails.lexer.LexerReader;
 
 import java.io.FileReader;
+import java.io.StringReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Verifies {@link TRailsParser}
@@ -45,12 +48,34 @@ public class TRailsParserTest {
 
        parser.program();
 
-       assertEquals("org.schildawg.book", parser.getModule());
+       assertEquals("book", parser.getModule());
        assertEquals("Book", parser.getEntity());
 
        val fields = parser.getFields();
 
        assertTrue(fields.contains("field1"));
        assertTrue(fields.contains("field2"));
+    }
+
+    /**
+     * Tests parsing error.
+     */
+    @Test
+    void testParseError()  {
+        val lexer = new Lexer();
+        val reader = new LexerReader(new StringReader("bad input.."));
+
+        val parser = new TRailsParser(lexer, reader);
+
+        Assertions.assertThrows(Error.class, () -> {
+            try {
+                parser.program();
+            }
+            catch (Error e) {
+                assertEquals("syntax error", e.getMessage());
+                throw e;
+            }
+            fail("Expected syntax error is thrown.");
+        });
     }
 }

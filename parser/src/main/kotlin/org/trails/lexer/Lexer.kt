@@ -104,7 +104,7 @@ class Lexer {
         reserve(Word("do", Tag.DO))
         reserve(Word("break", Tag.BREAK))
 
-        reserve(Word("package", Tag.PACKAGE))
+        reserve(Word("module", Tag.MODULE))
         reserve(Word("entity", Tag.ENTITY))
 
         reserve(Word.True)

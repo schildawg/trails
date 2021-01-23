@@ -13,37 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.trails.lexer
+package org.trails.inter
+
+import org.trails.lexer.Token
+import org.trails.symbol.Type
 
 /**
- * Token base class.
+ * Expression base class.
  *
- * @param tag the tag.
- * @author  Joel Schilling
- * @version 1.0, 01/12/2021
- * @since   1.0
+ * @param token the token.
+ * @param type the type.
  */
-open class Token(val tag: Int) {
+open class Expr(val token : Token, val type : Type) : Node {
     /**
-     * Constructor using characters.
-     * @param tag the character tag.
+     * Function to generate expression.
      */
-    constructor(tag : Char) : this(tag.toInt());
-
-
-    override fun toString() : String  = "" + tag.toChar()
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Token
-        if (tag != other.tag) return false
-
-        return true
+    fun gen(): Expr {
+        return this
     }
 
-    override fun hashCode(): Int {
-        return tag
+    /**
+     * Function to reduce the expression.
+     */
+    fun reduce(): Expr {
+        return this
     }
+
+    override fun toString(): String = token.toString()
 }

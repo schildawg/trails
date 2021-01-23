@@ -44,6 +44,6 @@ object Tag {
     const val TRUE = 274
     const val WHILE = 275
 
-    const val PACKAGE = 276;
+    const val MODULE = 276;
     const val ENTITY = 277;
 }

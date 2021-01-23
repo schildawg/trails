@@ -109,28 +109,30 @@ public class TypeTest {
     }
 
     /**
-     * Asserts float is bigger than int.
+     * Asserts max for Float
      */
     @Test
     void testMaxFloat() {
         assertEquals(Type.Float, Type.Companion.max(Type.Float, Type.Int));
         assertEquals(Type.Float, Type.Companion.max(Type.Int, Type.Float));
+        assertEquals(Type.Float, Type.Companion.max(Type.Float, Type.Float));
     }
 
     /**
-     * Asserts int is bigger than char.
+     * Asserts max for Int
      */
     @Test
     void testMaxInt() {
         assertEquals(Type.Int, Type.Companion.max(Type.Char, Type.Int));
         assertEquals(Type.Int, Type.Companion.max(Type.Int, Type.Char));
+        assertEquals(Type.Int, Type.Companion.max(Type.Int, Type.Int));
     }
 
     /**
-     * Asserts char is bigger than ?.
+     * Asserts max for Char
      */
     @Test
     void testMaxChar() {
-        // TODO: code not testable...
+        assertEquals(Type.Char, Type.Companion.max(Type.Char, Type.Char));
     }
 }
