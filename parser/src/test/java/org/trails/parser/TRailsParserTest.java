@@ -20,6 +20,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.trails.lexer.Lexer;
 import org.trails.lexer.LexerReader;
+import org.trails.model.Field;
+import org.trails.symbol.Type;
 
 import java.io.FileReader;
 import java.io.StringReader;
@@ -46,15 +48,15 @@ public class TRailsParserTest {
 
        val parser = new TRailsParser(lexer, reader);
 
-       parser.program();
+       val entity = parser.program();
 
-       assertEquals("book", parser.getModule());
-       assertEquals("Book", parser.getEntity());
+       assertEquals("org.schildawg.book", entity.getModule());
+       assertEquals("Book", entity.getName());
 
-       val fields = parser.getFields();
+       val fields = entity.getFields();
 
-       assertTrue(fields.contains("field1"));
-       assertTrue(fields.contains("field2"));
+       assertTrue(fields.contains(new Field("field1", Type.String)));
+       assertTrue(fields.contains(new Field("field2", Type.Int)));
     }
 
     /**

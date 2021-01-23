@@ -1,4 +1,4 @@
-module book
+module org.schildawg.book
 
 entity Book {
    field1 : String

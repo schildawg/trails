@@ -22,6 +22,9 @@ import org.trails.lexer.LexerReader
 import org.trails.lexer.Tag
 import org.trails.lexer.Token
 import org.trails.lexer.Word
+import org.trails.model.Entity
+import org.trails.model.Field
+import org.trails.symbol.Type
 
 /**
  * Parser for TRails DSL.
@@ -33,20 +36,22 @@ import org.trails.lexer.Word
  * @since   1.0
  */
 class TRailsParser(private val lexer: Lexer, private val reader: LexerReader) {
-    private var look : Token? = null // lookahead tagen
-    private var matched : Token? = null
+    private var look : Token? = null        // lookahead tag.
+    private var matched : Token? = null     // tag that was matched.
 
-    var module : String? = null
-    var entity : String? = null
-    val fields : MutableSet<String> = HashSet()
+    private val builder = Entity.Builder()
+
+    val fields : MutableSet<Field> = HashSet()
 
     /**
      * Parses program.
      */
     @Throws(IOException::class)
-    fun program() {
+    fun program() : Entity {
         module()
         entity()
+
+        return builder.build()
     }
 
     private fun module() {
@@ -63,28 +68,32 @@ class TRailsParser(private val lexer: Lexer, private val reader: LexerReader) {
             word = matched as Word
             sb.append(".").append(word.lexeme)
         }
-        module = sb.toString()
+        builder.module(sb.toString())
     }
 
     private fun entity() {
         match(Tag.ENTITY)
         match(Tag.ID)
         val word = matched as Word
-        entity = word.lexeme
+        builder.type(Entity.Type.Entity).name(word.lexeme)
         match('{')
         fields()
         match('}')
     }
 
     private fun fields()  {
+        val fields = HashSet<Field>()
         while (look!!.tag == Tag.ID) {
             match(Tag.ID)
             val word = matched as Word
-            fields.add(word.lexeme)
 
             match(':')
             match(Tag.BASIC, "invalid type: $look")
+            val type = matched as Type
+
+            fields.add(Field(word.lexeme, type))
         }
+        builder.fields(fields);
     }
 
     @Throws(IOException::class)
