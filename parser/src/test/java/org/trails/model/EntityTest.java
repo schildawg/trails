@@ -19,8 +19,14 @@ import lombok.val;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.trails.symbol.Type;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,9 +39,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @version 1.0, 01/23/2021
  * @since   1.0
  */
+@ExtendWith(MockitoExtension.class)
+@RunWith(JUnitPlatform.class)
 class EntityTest {
-
-
     /**
      * Tests the constructor.
      */
@@ -93,12 +99,31 @@ class EntityTest {
         assertEquals("Entity(name=Book, type=Entity, module=book, fields=[])", entity.toString());
     }
 
-
     /**
      * Tests the equals/hashcode contract has been satisfied.
      */
     @Test
-    public void testEqualsHashCode() {
+    void testEqualsHashCode() {
         EqualsVerifier.forClass(Entity.class).usingGetClass().verify();
+    }
+
+    /**
+     * Tests entity visitor.
+     */
+    @Test
+    void testVisitor() {
+        EntityVisitor visitor = Mockito.mock(EntityVisitor.class);
+
+        val field1 = new Field("field1", Type.Int);
+        val field2 = new Field("field2", Type.String);
+
+        val entity = new Entity("Book", Entity.Type.Entity, "book",
+            new HashSet<>(Arrays.asList(field1, field2)));
+
+        entity.accept(visitor);
+
+        Mockito.verify(visitor).visitEntity(entity);
+        Mockito.verify(visitor).visitField(field1);
+        Mockito.verify(visitor).visitField(field2);
     }
 }

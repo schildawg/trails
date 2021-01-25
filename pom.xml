@@ -18,5 +18,6 @@
 
     <modules>
         <module>parser</module>
+        <module>main</module>
     </modules>
 </project>

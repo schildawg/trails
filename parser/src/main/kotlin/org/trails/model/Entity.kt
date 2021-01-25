@@ -31,6 +31,16 @@ data class Entity(val name : String, val type : Type, val module : String, val f
      */
     enum class Type { Entity, Value, Service }
 
+
+    /**
+     * Double dispatch method.
+     */
+    fun accept(visitor : EntityVisitor) {
+        visitor.visitEntity(this)
+
+        fields.forEach { visitor.visitField(it) }
+    }
+
     /**
      * Entity model builder.
      */
