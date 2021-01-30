@@ -1,0 +1,62 @@
+package org.schildawg.book;
+
+import java.io.Serializable;
+
+/**
+ * Book entity.
+ */
+public class Book implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
+    private String author;
+    private Integer numberOfPages;
+    private boolean active;
+    
+    /**
+    * No-arg constructor.
+    */
+    public Book() {
+    }
+    
+    /**
+    * Sets author.
+    */
+    public void setAuthor(final String author) {
+        this.author = author;
+    }
+    
+    /**
+    * Gets author.
+    */
+    public String getAuthor() {
+        return author;
+    }
+    
+    /**
+    * Sets number of pages.
+    */
+    public void setNumberOfPages(final Integer numberOfPages) {
+        this.numberOfPages = numberOfPages;
+    }
+    
+    /**
+    * Gets number of pages.
+    */
+    public Integer getNumberOfPages() {
+        return numberOfPages;
+    }
+    
+    /**
+    * Sets active.
+    */
+    public void setActive(final boolean active) {
+        this.active = active;
+    }
+    
+    /**
+    * Gets active.
+    */
+    public boolean isActive() {
+        return active;
+    }
+}

@@ -25,6 +25,7 @@
     <modules>
         <module>model</module>
         <module>parser</module>
+        <module>generator</module>
         <module>main</module>
     </modules>
 </project>

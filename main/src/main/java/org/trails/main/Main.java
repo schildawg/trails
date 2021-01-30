@@ -17,17 +17,15 @@ package org.trails.main;
 
 import lombok.val;
 import lombok.var;
+import org.trails.generator.Generator;
+import org.trails.generator.JavaBeanGenerator;
 import org.trails.lexer.Lexer;
 import org.trails.lexer.LexerReader;
 import org.trails.model.Entity;
-import org.trails.model.EntityVisitor;
-import org.trails.model.Field;
 import org.trails.parser.TRailsParser;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Main class.
@@ -42,11 +40,6 @@ public class Main {
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_GRAY = "\u001B[37m";
     private static final String ANSI_WHITE = "\u001B[97m";
-
-    private static Map<String, EntityVisitor> generators = new HashMap<>();
-    static {
-        generators.put("java-bean", new Dummy());
-    }
 
     public static void main(String[] args) {
         if (args.length < 2) {
@@ -64,20 +57,17 @@ public class Main {
         System.out.println(ANSI_WHITE + "TRails (c) 2021" + ANSI_RESET);
         System.out.println();
         try {
-            if (!generators.containsKey(generator)) {
-                displayError("Invalid generator: " + generator);
-                System.exit(0);
-            }
-
-            System.out.print(ANSI_GRAY + generator + " (" + fileName.substring(0, fileName.indexOf(".")) + ") ............................................... ");
-
             val lexer = new Lexer();
             val reader = new LexerReader(new FileReader(fileName));
             val parser = new TRailsParser(lexer, reader);
 
             try {
                 val entity = parser.program();
-                System.out.println(ANSI_GREEN + "SUCCESS");
+                val lookup = lookup(generator, entity);
+                
+                System.out.print(ANSI_GRAY + generator + " (" + fileName.substring(0, fileName.indexOf(".")) + ") ............................................... ");
+                System.out.println(ANSI_GREEN + "SUCCESS" + ANSI_RESET);
+                entity.accept(lookup);
             }
             catch (Error e) {
                 System.out.println(ANSI_RED + "FAIL");
@@ -94,13 +84,13 @@ public class Main {
         System.out.println(ANSI_GRAY + "[" + ANSI_RED + "ERROR" + ANSI_GRAY + "] " + message);
     }
 
-    private static class Dummy implements EntityVisitor {
-        @Override
-        public void visitEntity(Entity entity) {
+    private static Generator lookup(String name, Entity entity) throws IOException {
+        if ("java-bean".equals(name)) {
+            return JavaBeanGenerator.create(entity);
         }
+        displayError("Invalid generator: " + name);
+        System.exit(0);
 
-        @Override
-        public void visitField(Field field) {
-        }
+        return null;
     }
 }
