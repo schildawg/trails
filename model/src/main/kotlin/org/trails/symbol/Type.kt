@@ -21,7 +21,7 @@ import org.trails.lexer.Word
 /**
  * Base object for Types.
  */
-open class Type(string : String, tag : Int) : Word(string, tag) {
+public open class Type(string : String, tag : Int) : Word(string, tag) {
     companion object {
         @JvmField val Int   =  Type("Integer", Tag.BASIC)
         @JvmField val Float =  Type("float",   Tag.BASIC)

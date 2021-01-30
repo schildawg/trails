@@ -7,9 +7,7 @@
         <artifactId>trails</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <groupId>org.trails</groupId>
     <artifactId>main</artifactId>
-    <version>1.0-SNAPSHOT</version>
 
     <properties>
         <java.version>1.8</java.version>
@@ -22,8 +20,11 @@
     <dependencies>
         <dependency>
           <groupId>org.trails</groupId>
+          <artifactId>model</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.trails</groupId>
           <artifactId>parser</artifactId>
-          <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

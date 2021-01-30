@@ -19,12 +19,12 @@ import java.io.IOException
 
 import org.trails.lexer.Lexer
 import org.trails.lexer.LexerReader
-import org.trails.lexer.Tag
-import org.trails.lexer.Token
-import org.trails.lexer.Word
 import org.trails.model.Entity
 import org.trails.model.Field
 import org.trails.symbol.Type
+import org.trails.lexer.Token
+import org.trails.lexer.Word
+import org.trails.lexer.Tag
 
 /**
  * Parser for TRails DSL.

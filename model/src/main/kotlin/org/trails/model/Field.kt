@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.trails.inter
+package org.trails.model
 
 import org.trails.symbol.Type
-import org.trails.lexer.Word
 
 /**
- * Id.  Used in symbol table to define variables.
+ * Field model.
  *
- * @param id the name lexeme.
- * @param type the type.
- * @param offset offset?
+ * @param name the field name.
+ * @param type the field type.
+ * @author  Joel Schilling
+ * @version 1.0, 01/23/2021
+ * @since   1.0
  */
-class Id(id : Word, type : Type, private val offset: Int) : Expr(id, type)
+public data class Field(val name : String, val type : Type)

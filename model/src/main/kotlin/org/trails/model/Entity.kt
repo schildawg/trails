@@ -25,7 +25,7 @@ package org.trails.model
  * @version 1.0, 01/23/2021
  * @since   1.0
  */
-data class Entity(val name : String, val type : Type, val module : String, val fields : Set<Field>) {
+public data class Entity(val name : String, val type : Type, val module : String, val fields : Set<Field>) {
     /**
      * Entity types.
      */

@@ -15,8 +15,8 @@
  */
 package org.trails.inter
 
-import org.trails.lexer.Token
 import org.trails.symbol.Type
+import org.trails.lexer.Token
 
 /**
  * Expression base class.
